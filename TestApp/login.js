@@ -1,6 +1,7 @@
 
 import basestyle from './basestyles';
 import LinearGradient from 'react-native-linear-gradient';
+import { Actions } from 'react-native-router-flux';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,7 +13,7 @@ import {
   TextInput
 } from 'react-native';
 
-export default class LoginScene extends Component {
+export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = { username: '', password:'' };
@@ -52,7 +53,7 @@ export default class LoginScene extends Component {
           value={this.state.password}
         />
         <LinearGradient colors={['#B23A8D', '#9629B9']} start={{x: 0.0, y: 0.0}} end={{x: 1.0, y:0.0}} style={styles.linearGradient}>
-          <Text style={styles.btnText}>
+          <Text style={styles.btnText} onPress={Actions.Home}>
             Login
           </Text>
         </LinearGradient>
@@ -126,5 +127,3 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent'
   },
 });
-
-AppRegistry.registerComponent('TestApp', () => TestApp);
