@@ -53,7 +53,7 @@ export default class Login extends Component {
           value={this.state.password}
         />
         <LinearGradient colors={['#B23A8D', '#9629B9']} start={{x: 0.0, y: 0.0}} end={{x: 1.0, y:0.0}} style={styles.linearGradient}>
-          <Text style={styles.btnText} onPress={Actions.Home}>
+          <Text style={styles.btnText} onPress={Actions.root}>
             Login
           </Text>
         </LinearGradient>

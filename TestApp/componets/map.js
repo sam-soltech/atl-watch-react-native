@@ -1,5 +1,5 @@
 
-import basestyle from './basestyles';
+import basestyle from '../basestyles';
 import LinearGradient from 'react-native-linear-gradient';
 import React, { Component } from 'react';
 import MapView from 'react-native-maps';
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
    top: 95,
+   bottom: 25,
    left:0,
    right:0
   //  justifyContent: 'flex-end',
@@ -90,15 +91,73 @@ const styles = StyleSheet.create({
 });
 
 
-export default class Home extends Component {
+export default class Map extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      region: {
+        latitude:33.7490,
+        longitude:-84.3880,
+        latitudeDelta: 0.15,
+        longitudeDelta: 0.05,
+      },
+      markers:[
+        {
+          latitude:33.82909115,
+          longitude:-84.36133874,
+          key:1
+        },
+        {
+          latitude:33.69749356,
+          longitude:-84.36122151,
+          key:2
+        },
+        {
+          latitude:33.75421136,
+          longitude:-84.48605182,
+          key:3
+        },
+        {
+          latitude:33.71558534,
+          longitude:-84.50698254,
+          key:4
+        },
+        {
+          latitude:33.80381727,
+          longitude:-84.28602474,
+          key:5
+        }
+      ]
+    };
+  }
+
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var curlocation = {
+           region: {
+            latitude:position.coords.latitude,
+            longitude:position.coords.longitude,
+            latitudeDelta: 0.15,
+            longitudeDelta: 0.05,
+          }
+        }
+
+        var newstate = Object.assign(curlocation, this.state);
+
+        this.setState(newstate);
+        console.log(this.state)
+      },
+      (error) => alert(JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    );
   }
 
   render() {
     // debugger;
     return (
-      <Image source={require('./images/bg_480.png')} style={basestyle.backgroundImage}>
+      <Image source={require('../images/bg_480.png')} style={basestyle.backgroundImage}>
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.title}>
@@ -114,14 +173,18 @@ export default class Home extends Component {
             </Text>
           </View>
           <MapView
-           style={styles.map}
-           initialRegion={{
-             latitude: 37.78825,
-             longitude: -122.4324,
-             latitudeDelta: 0.0922,
-             longitudeDelta: 0.0421,
-           }}
-           />
+            region={this.state.region}
+            style={styles.map}
+          >
+            {this.state.markers.map(marker => (
+              <MapView.Marker
+                coordinate={{latitude: marker.latitude,longitude: marker.longitude}}
+                title={'test'+marker.key}
+                description={'test'}
+                key={marker.key}
+              />
+            ))}
+          </MapView>
         </View>
       </Image>
     );
