@@ -11,7 +11,8 @@ import {
   View,
   Image,
   StatusBar,
-  TextInput
+  TextInput,
+  Modal
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -78,6 +79,19 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'flex-start',
     backgroundColor:'transparent'
+  },
+  modal:{
+    height:80,
+    backgroundColor:"#FFF",
+    alignSelf: 'stretch',
+    zIndex:80
+  },
+  modalwrap:{
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+      zIndex:80
+    // flexDirection: 'row',
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -171,6 +185,12 @@ export default class Map extends Component {
             <Text style={styles.subheaderText}>
               Downtown - 5 Days since reported crime
             </Text>
+          </View>
+          <View style={styles.modalwrap}>
+            <View style={styles.modal}>
+              <TextInput
+               style={styles.inputStyle}/>
+            </View>
           </View>
           <MapView
             region={this.state.region}

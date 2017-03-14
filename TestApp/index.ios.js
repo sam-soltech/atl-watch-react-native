@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import Login from './login';
 import MapView from './componets/map';
+import Tab from './componets/tab';
+import Account from './componets/account';
 import One from './test-views/one';
 import Two from './test-views/two';
 const styles = StyleSheet.create({
@@ -18,39 +20,18 @@ const styles = StyleSheet.create({
   tabBar:{
     backgroundColor:'#232323'
   },
-  tabTitle:{
-    paddingTop:5,
+  navBar:{
+    backgroundColor:'#232323',
+    borderBottomColor:'#9519C2',
+    borderBottomWidth: 2,
+    padding:7
+  },
+  title:{
     color:'#FFF',
-    fontSize:9,
-    fontWeight:'600',
-    backgroundColor:'transparent',
-    textAlign:'center'
-  },
-  tabImage:{
-    alignSelf:"center"
-  },
-  tabStyle:{
-    justifyContent:"center"
+    fontWeight:'500'
   }
 });
 
-const TabIcon1 = ({ selected, title }) => {
-  return (
-    <View style={styles.tabStyle}>
-      <Image style={styles.tabImage} source={require('./images/icons/home.png')}/>
-      <Text style={styles.tabTitle}>{title}</Text>
-    </View>
-  );
-}
-
-const TabIcon2 = ({ selected, title }) => {
-  return (
-    <View style={styles.tabStyle}>
-      <Image style={styles.tabImage} source={require('./images/icons/search.png')}/>
-      <Text style={styles.tabTitle}>{title}</Text>
-    </View>
-  );
-}
 
 export default class TestApp extends Component {
   render() {
@@ -58,8 +39,8 @@ export default class TestApp extends Component {
       <Router>
         <Scene key="Login" hideNavBar component={Login}  title="Login"/>
         <Scene key="root"  tabs={true} initial tabBarStyle={styles.tabBar}>
-          <Scene key="Map" title="Search" hideNavBar initial icon={TabIcon1} component={MapView}/>
-          <Scene key="Two" title="Account" icon={TabIcon2} component={Two}/>
+          <Scene key="Map" title="Search" hideNavBar initial icon={Tab} component={MapView}/>
+          <Scene key="Two" title="Account" icon={Tab} hideNavBar  component={Account}/>
         </Scene>
       </Router>
     )
