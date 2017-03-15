@@ -16,7 +16,7 @@ import {
   TouchableHighlight,
   Button
 } from 'react-native';
-
+import MapHelper from "../MapHelper"
 const styles = StyleSheet.create({
   linearGradient: {
     borderRadius:10,
@@ -85,40 +85,14 @@ export default class Map extends Component {
     super(props);
     this.state = {
       showSearch:false,
-      currentLocation:'Atlanta',
+      currentFrame:'Current Location',
       region: {
         latitude:33.7490,
         longitude:-84.3880,
         latitudeDelta: 0.15,
         longitudeDelta: 0.05,
       },
-      markers:[
-        {
-          latitude:33.82909115,
-          longitude:-84.36133874,
-          key:1
-        },
-        {
-          latitude:33.69749356,
-          longitude:-84.36122151,
-          key:2
-        },
-        {
-          latitude:33.75421136,
-          longitude:-84.48605182,
-          key:3
-        },
-        {
-          latitude:33.71558534,
-          longitude:-84.50698254,
-          key:4
-        },
-        {
-          latitude:33.80381727,
-          longitude:-84.28602474,
-          key:5
-        }
-      ]
+      markers:MapHelper.genMarkers(10,{latitude:33.7490,longitude:-84.3880})
     };
   }
 
@@ -130,7 +104,22 @@ export default class Map extends Component {
       longitudeDelta: 0.05,
     }
 
-    this.setState({region:curlocation,showSearch:false,currentLocation:data.zip_code});
+    this.setState({
+      region:curlocation,
+      showSearch:false,
+      currentFrame:data.zip_code
+    });
+
+
+    this.setNewMarkers({
+      latitude:data.lat,
+      longitude:data.lng
+    });
+  }
+
+  async setNewMarkers(region){
+    var temp = await MapHelper.genMarkers(10,region);
+    this.setState({markers:temp})
   }
 
   componentDidMount() {
@@ -167,7 +156,6 @@ export default class Map extends Component {
   }
 
 
-
   render() {
     // debugger;
     return (
@@ -180,7 +168,7 @@ export default class Map extends Component {
           </View>
           <View style={styles.subheader}>
             <Text style={styles.subheaderText}>
-              Current Location: {this.state.currentLocation}
+              Current Location: {this.state.currentFrame}
             </Text>
             <Text style={styles.subheaderText}>
               Downtown - 5 Days since reported crime
