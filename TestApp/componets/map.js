@@ -1,9 +1,9 @@
-
+'use strict';
 import basestyle from '../basestyles';
 import LinearGradient from 'react-native-linear-gradient';
 import React, { Component } from 'react';
 import MapView from 'react-native-maps';
-
+import SearchModal from './searchmodal';
 import {
   AppRegistry,
   StyleSheet,
@@ -12,7 +12,9 @@ import {
   Image,
   StatusBar,
   TextInput,
-  Modal
+  Modal,
+  TouchableHighlight,
+  Button
 } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -29,29 +31,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopColor:'#000',
     borderTopWidth:20
-  },
-  inputStyle:{
-    borderColor:'#9519C2',
-    borderRadius:10,
-    marginBottom:15,
-    marginLeft:30,
-    marginRight:30,
-    height: 40,
-    borderWidth: 2,
-    color: '#FFF',
-    paddingLeft:15,
-    fontSize:13,
-    backgroundColor:'#3A3A3A'
-  },
-  inputLabel: {
-    color: '#FFF',
-    marginBottom: 3,
-    fontWeight:'500',
-    marginLeft:35,
-    fontSize: 11,
-    textAlign: 'left',
-    alignSelf : 'flex-start',
-    backgroundColor:'transparent'
   },
   header:{
     borderBottomColor:'#9519C2',
@@ -80,18 +59,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor:'transparent'
   },
-  modal:{
-    height:80,
-    backgroundColor:"#FFF",
-    alignSelf: 'stretch',
-    zIndex:80
-  },
-  modalwrap:{
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-      zIndex:80
-    // flexDirection: 'row',
+  roundBtn:{
+    position:'absolute',
+    backgroundColor:'#9519C2',
+    top:100,
+    left:5,
+    zIndex:900,
+    padding:9,
+    borderRadius:20
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -101,7 +76,7 @@ const styles = StyleSheet.create({
    right:0
   //  justifyContent: 'flex-end',
   //  alignItems: 'center'
-  },
+  }
 });
 
 
@@ -109,6 +84,8 @@ export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showSearch:false,
+      currentLocation:'Atlanta',
       region: {
         latitude:33.7490,
         longitude:-84.3880,
@@ -145,6 +122,16 @@ export default class Map extends Component {
     };
   }
 
+  changeLocation = (data) => {
+    var curlocation = {
+      latitude:data.lat,
+      longitude:data.lng,
+      latitudeDelta: 0.15,
+      longitudeDelta: 0.05,
+    }
+
+    this.setState({region:curlocation,showSearch:false,currentLocation:data.zip_code});
+  }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -168,6 +155,19 @@ export default class Map extends Component {
     );
   }
 
+  displaySearch  = () => {
+    if(this.state.showSearch){
+      return <SearchModal submitSearch={this.changeLocation.bind(this)}/>
+    }
+  }
+
+  toggleSearch = () => {
+    var temp = !this.state.showSearch;
+    this.setState({showSearch:temp})
+  }
+
+
+
   render() {
     // debugger;
     return (
@@ -180,18 +180,16 @@ export default class Map extends Component {
           </View>
           <View style={styles.subheader}>
             <Text style={styles.subheaderText}>
-              Current Location:
+              Current Location: {this.state.currentLocation}
             </Text>
             <Text style={styles.subheaderText}>
               Downtown - 5 Days since reported crime
             </Text>
           </View>
-          <View style={styles.modalwrap}>
-            <View style={styles.modal}>
-              <TextInput
-               style={styles.inputStyle}/>
-            </View>
-          </View>
+          <TouchableHighlight style={styles.roundBtn} onPress={this.toggleSearch}>
+              <Image source={require('../images/icons/search.png')} style={styles.buttonImage}/>
+          </TouchableHighlight>
+          {this.displaySearch()}
           <MapView
             region={this.state.region}
             style={styles.map}

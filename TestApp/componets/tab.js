@@ -46,12 +46,12 @@ export default class Tab extends Component {
           this.state.url = require('../images/icons/account.png')
         }
         break;
-      case 'Search':
+      case 'Map':
         if(this.props.selected){
-          this.state.url = require('../images/icons/search-active.png')
+          this.state.url = require('../images/icons/map-active.png')
         }
         else {
-          this.state.url = require('../images/icons/search.png')
+          this.state.url = require('../images/icons/map.png')
         }
         break;
       }
@@ -71,12 +71,12 @@ export default class Tab extends Component {
         this.setState({url:require('../images/icons/account.png')})
       }
       break;
-    case 'Search':
+    case 'Map':
       if(nextProps.selected){
-        this.setState({url:require('../images/icons/search-active.png')});
+        this.setState({url:require('../images/icons/map-active.png')});
       }
       else {
-        this.setState({url:require('../images/icons/search.png')});
+        this.setState({url:require('../images/icons/map.png')});
       }
       break;
     }

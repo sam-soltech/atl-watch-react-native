@@ -1,4 +1,4 @@
-
+'use strict';
 import basestyle from '../basestyles';
 import LinearGradient from 'react-native-linear-gradient';
 import React, { Component } from 'react';
@@ -152,7 +152,7 @@ export default class Account extends Component {
              </Text>
              <TextInput
               style={styles.inputStyle}
-              keyboardType={'phone-pad'}
+              keyboardType='phone-pad'
               onChangeText={(phone) => this.setState({phone:phone})}
               value={this.state.phone}
             />

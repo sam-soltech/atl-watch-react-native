@@ -39,7 +39,7 @@ export default class TestApp extends Component {
       <Router>
         <Scene key="Login" hideNavBar component={Login}  title="Login"/>
         <Scene key="root"  tabs={true} initial tabBarStyle={styles.tabBar}>
-          <Scene key="Map" title="Search" hideNavBar initial icon={Tab} component={MapView}/>
+          <Scene key="Map" title="Map" hideNavBar initial icon={Tab} component={MapView}/>
           <Scene key="Two" title="Account" icon={Tab} hideNavBar  component={Account}/>
         </Scene>
       </Router>

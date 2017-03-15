@@ -1,4 +1,4 @@
-
+'use strict';
 import basestyle from './basestyles';
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
