@@ -92,7 +92,7 @@ export default class Map extends Component {
         latitudeDelta: 0.15,
         longitudeDelta: 0.05,
       },
-      markers:MapHelper.genMarkers(10,{latitude:33.7490,longitude:-84.3880})
+      markers:MapHelper.genMarkers(13,{latitude:33.7490,longitude:-84.3880})
     };
   }
 
@@ -103,24 +103,16 @@ export default class Map extends Component {
       latitudeDelta: 0.15,
       longitudeDelta: 0.05,
     }
+    var t = MapHelper.genMarkers(13,curlocation);
 
     this.setState({
       region:curlocation,
       showSearch:false,
-      currentFrame:data.zip_code
-    });
-
-
-    this.setNewMarkers({
-      latitude:data.lat,
-      longitude:data.lng
+      currentFrame:data.zip_code,
+      markers:t
     });
   }
 
-  async setNewMarkers(region){
-    var temp = await MapHelper.genMarkers(10,region);
-    this.setState({markers:temp})
-  }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(

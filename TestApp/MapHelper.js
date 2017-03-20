@@ -8,7 +8,7 @@ class MapHelper {
     for (var i = 0; i < number-1; i++) {
       var marker = this.randomGeo(zipcenter,6000)
       marker.type = this.markerTypes[this.getRandomInt(0,3)];
-      marker.key = i;
+      // marker.key = i;
       tempmarkers.push(marker)
     }
     return tempmarkers;
